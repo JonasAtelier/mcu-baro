@@ -1,0 +1,23 @@
+# ESP-IDF builds of examples/esp/
+build/
+sdkconfig
+sdkconfig.old
+managed_components/
+dependencies.lock
+docs/*.pdf
+test/test_bmp280_math
+test/test_bmp388_math
+test/test_dps310_math
+test/test_ms5611_math
+test/esp/test_core
+test/esp/test_bmp280
+test/esp/test_bmp388
+test/esp/test_dps310
+test/esp/test_ms5611
+test/esp/test_port_esp
+test/stm/test_core
+test/stm/test_bmp280
+test/stm/test_bmp388
+test/stm/test_dps310
+test/stm/test_ms5611
+test/stm/test_port_stm

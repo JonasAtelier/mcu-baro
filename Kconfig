@@ -1,0 +1,46 @@
+# Read by ESP-IDF as a component Kconfig, and by both forges' `make menu`
+# (scripts/menu.py) for the BARO_<CHIP> prompts. stm-forge has no Kconfig
+# build step: its build only sees the defconfig lines, as
+# -DCONFIG_BARO_<CHIP>=1 or 0. Every chip is off unless set.
+menuconfig BARO
+    bool "Barometer subsystem"
+    default y
+    help
+        The baro core: struct baro_dev, baro_read(), baro_altitude_m()
+        and the baro_* log helpers. Pick the chip drivers you need below;
+        none is built by default, so a chip missing from sdkconfig is off.
+
+if BARO
+
+    config BARO_BMP280
+        bool "Bosch BMP280 (I2C)"
+        default n
+        help
+            Build the BMP280 driver: bmp280_probe() and bmp280_remove().
+
+    config BARO_BMP388
+        bool "Bosch BMP388 (I2C)"
+        default n
+        help
+            Build the BMP388 driver: bmp388_probe() and bmp388_remove().
+
+    config BARO_DPS310
+        bool "Infineon DPS310 (I2C)"
+        default n
+        help
+            Build the DPS310 driver: dps310_probe() and friends.
+
+    config BARO_MS5611
+        bool "TE MS5611-01BA03 (I2C)"
+        default n
+        help
+            Build the MS5611 driver: ms5611_probe() and ms5611_remove().
+
+    config BARO_DEBUG
+        bool "baro_dbg() lines"
+        default n
+        help
+            STM32 HAL only: compile baro_dbg() lines in. On ESP-IDF
+            baro_dbg() is ESP_LOGD and the log level decides.
+
+endif # BARO
