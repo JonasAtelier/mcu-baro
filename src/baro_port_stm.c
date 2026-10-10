@@ -12,7 +12,7 @@
 /*
  * The core is always built; each chip driver only under its own option. With
  * the library on and no chip picked, say so -- stm-forge compiles this file
- * only when PKG_imu = y, so this is the CMakeLists' "IMU on, no chip"
+ * only when PKG_baro = y, so this is the CMakeLists' "BARO on, no chip"
  * warning on the ESP-IDF side.
  */
 #if !(CONFIG_BARO_BMP280 || CONFIG_BARO_BMP388 || CONFIG_BARO_DPS310 || \
@@ -40,9 +40,8 @@ void baro_sleep_ms(uint32_t ms)
 }
 
 /*
- * The HAL has no microsecond delay, so round up to whole ms; the contract is
- * to wait at least usec. The BMI088's 2 us settle after a register write
- * becomes 1 ms: slower, and only ever during probe.
+ * Polls count HAL_GetTick() milliseconds, as the STM32 drivers always did;
+ * baro_expired() below says how the first, partial one is handled.
  */
 uint32_t baro_tick_now(void)
 {
