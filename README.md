@@ -18,7 +18,8 @@ component directory named `baro` as well.
 > **Hardware unverified.** Host tests use simulated devices and platform stubs.
 > Nothing here has run on a physical chip.
 
-[Supported hardware](#supported-hardware) · [Install](#install) ·
+[Supported hardware](#supported-hardware) · [Drivers](#drivers) ·
+[Install](#install) ·
 [Quick start](#quick-start) · [Examples](#examples) ·
 [Documentation](#documentation) · [Tests](#tests)
 
@@ -28,13 +29,56 @@ All four drivers support both platforms. Enable only the drivers you need.
 
 | Chip | Bus | Notes |
 |---|---|---|
-| **BMP280** | I2C | Address `0x76` or `0x77` by SDO; forced mode; a BME280 is refused by ID |
-| **BMP388** | I2C | Address `0x76` or `0x77` by SDO; forced mode; a BMP390 is refused by ID |
-| **DPS310** | I2C | Address `0x77` or `0x76` by SDO; background mode, with data ready and raw access |
-| **MS5611** | I2C | Address `0x77` or `0x76` by CSB; commands, not registers; no data-ready flag |
+| **BMP280** | I2C | Bosch pressure and temperature sensor |
+| **BMP388** | I2C | Bosch pressure and temperature sensor |
+| **DPS310** | I2C | Infineon pressure and temperature sensor |
+| **MS5611** | I2C | TE Connectivity pressure and temperature sensor |
 
 All four parts can also do SPI; no driver here does. Wiring for every chip is
 in the [wiring guide](docs/hardware.md).
+
+## Drivers
+
+<details><summary><b>BMP280</b> — I2C</summary>
+
+Address `0x76` or `0x77` by SDO; forced mode; a BME280 is refused by ID.
+
+- Examples: ESP-IDF [bmp280](examples/esp/bmp280/) · STM32 HAL
+  [bmp280](examples/stm/bmp280/main.c)
+- Chip reference: [BMP280](docs/chips.md#bmp280)
+
+</details>
+
+<details><summary><b>BMP388</b> — I2C</summary>
+
+Address `0x76` or `0x77` by SDO; forced mode; a BMP390 is refused by ID.
+
+- Examples: ESP-IDF [bmp388](examples/esp/bmp388/) · STM32 HAL
+  [bmp388](examples/stm/bmp388/main.c)
+- Chip reference: [BMP388](docs/chips.md#bmp388)
+
+</details>
+
+<details><summary><b>DPS310</b> — I2C</summary>
+
+Address `0x77` or `0x76` by SDO; background mode, with data ready and raw
+access.
+
+- Examples: ESP-IDF [dps310](examples/esp/dps310/) · STM32 HAL
+  [dps310](examples/stm/dps310/main.c)
+- Chip reference: [DPS310](docs/chips.md#dps310)
+
+</details>
+
+<details><summary><b>MS5611</b> — I2C</summary>
+
+Address `0x77` or `0x76` by CSB; commands, not registers; no data-ready flag.
+
+- Examples: ESP-IDF [ms5611](examples/esp/ms5611/) · STM32 HAL
+  [ms5611](examples/stm/ms5611/main.c)
+- Chip reference: [MS5611](docs/chips.md#ms5611)
+
+</details>
 
 ## Install
 
@@ -135,12 +179,7 @@ delays, altitude, logging, and error codes.
 
 ## Examples
 
-| Sensor | ESP-IDF | STM32 HAL |
-|---|---|---|
-| BMP280 | [bmp280](examples/esp/bmp280/) | [bmp280](examples/stm/bmp280/main.c) |
-| BMP388 | [bmp388](examples/esp/bmp388/) | [bmp388](examples/stm/bmp388/main.c) |
-| DPS310 | [dps310](examples/esp/dps310/) | [dps310](examples/stm/dps310/main.c) |
-| MS5611 | [ms5611](examples/esp/ms5611/) | [ms5611](examples/stm/ms5611/main.c) |
+Each driver's examples are listed under [Drivers](#drivers).
 
 Every example streams pressure, temperature and height above where it was
 switched on. ESP-IDF examples already locate this library through
