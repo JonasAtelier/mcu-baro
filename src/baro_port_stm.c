@@ -11,13 +11,13 @@
 
 /*
  * The core is always built; each chip driver only under its own option. With
- * the library on and no chip picked, say so -- stm-forge compiles this file
- * only when PKG_baro = y, so this is the CMakeLists' "BARO on, no chip"
- * warning on the ESP-IDF side.
+ * the library built and no chip picked, say so: this file is compiled only
+ * when the library is, so this is the CMakeLists' "no chip" warning for every
+ * build that never reads that file (stm-forge, a hand-made project).
  */
 #if !(CONFIG_BARO_BMP280 || CONFIG_BARO_BMP388 || CONFIG_BARO_DPS310 || \
       CONFIG_BARO_MS5611)
-#warning "baro: no chip driver is selected; set BARO_<CHIP> = y under PKG_baro = y (or -DCONFIG_BARO_<CHIP>=1)"
+#warning "baro: no chip driver is selected; define CONFIG_BARO_<CHIP>=1 (stm-forge: BARO_<CHIP> = y)"
 #endif
 
 /* Milliseconds dressed as microseconds; see baro.h for a real clock. */

@@ -32,7 +32,8 @@ examples/
   stm/<chip>/               STM32 snippets: bmp280, bmp388, dps310, ms5611
 docs/                       the five guides; datasheet PDFs here are gitignored
 assets/                     chip-reference figures
-CMakeLists.txt              ESP-IDF only; stm-forge globs src/**/*.c instead
+CMakeLists.txt              ESP-IDF component; elsewhere a static library for add_subdirectory(); stm-forge globs src/**/*.c instead
+                            the static library's options are Kconfig's bool entries, found by the type line directly under each `config`
 Kconfig                     BARO and BARO_<CHIP>, for ESP-IDF and both forges' menus
 idf_component.yml           ESP-IDF component manifest
 ```
@@ -127,7 +128,8 @@ A driver is a probe, a remove and one read function:
    `baro_expired()` and `baro_poll_wait()`, and use `baro_err()` for anything
    the user needs to see.
 4. Guard your chip-specific calls with `baro->ops == &foo_ops`.
-5. Add `CONFIG_BARO_FOO` to the no-chip checks in `CMakeLists.txt`,
+5. Add `CONFIG_BARO_FOO` to the no-chip checks in `CMakeLists.txt` (its
+   ESP-IDF part; the `add_subdirectory()` part reads `Kconfig`),
    `src/baro_port_stm.c` and the HAL module `#error` in `src/baro_priv.h`, a
    `src/foo/foo.c` line to `CMakeLists.txt`, a `config BARO_FOO` bool to
    `Kconfig`, `# BARO_FOO is not set` to both forges' defconfigs, and

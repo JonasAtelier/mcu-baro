@@ -100,6 +100,17 @@ struct baro_bus {
 #define baro_config_scl_hz(cfg)	((cfg)->scl_hz)
 
 #else /* STM32 HAL */
+/*
+ * Undefined, the include below fails with only
+ * `#include expects "FILENAME" or <FILENAME>`. Every library source that
+ * needs the HAL includes this header before any chip header, so one check
+ * here names the cause on every build route. The HAL module check sits in
+ * its #else: without the family header no module looks enabled, and the
+ * check would blame the module instead.
+ */
+#ifndef CMSIS_device_header
+#error "baro: CMSIS_device_header is not defined; define it as the STM32 family header, \"stm32f4xx.h\" or \"stm32f7xx.h\" (CMake: set(MCU_DEVICE_HEADER stm32f4xx.h))"
+#else
 #include CMSIS_device_header
 
 #if !defined(HAL_I2C_MODULE_ENABLED) && \
@@ -107,6 +118,7 @@ struct baro_bus {
      CONFIG_BARO_MS5611)
 #error "the baro chip drivers need the HAL I2C module: #define HAL_I2C_MODULE_ENABLED in the app's stm32f{4,7}xx_hal_conf.h, with stm32f{4,7}xx_hal_i2c.c in the build"
 #endif
+#endif /* CMSIS_device_header */
 
 #ifdef HAL_I2C_MODULE_ENABLED
 typedef I2C_HandleTypeDef *baro_i2c_bus;
