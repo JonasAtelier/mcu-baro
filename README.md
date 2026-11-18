@@ -4,6 +4,13 @@ Read air pressure in pascals and temperature in °C from a BMP280, BMP388, DPS31
 
 **Platforms** · ESP-IDF 5.2+ and STM32 HAL (F4/F7). Hardware testing is pending. The host tests use simulated devices.
 
+## Contents
+
+- [Quick start](#quick-start)
+- [Drivers and examples](#drivers-and-examples)
+- [Using the library in your project](#using-the-library-in-your-project)
+- [License](#license)
+
 ## Quick start
 
 Connect a BMP280 over I2C, pull CSB high and use address 0x76 for this example.
@@ -56,10 +63,21 @@ int read_once(I2C_HandleTypeDef *bus)
 
 </details>
 
+## Drivers and examples
+
+All four I2C examples use `baro_read()` for compensated pressure and temperature. The altitude helper takes a reference pressure in pascals. [Shared API](include/baro.h)
+
+| Chip | Driver header | ESP-IDF project | STM32 HAL example |
+|---|---|---|---|
+| [BMP280](docs/chips.md#bmp280) | [bmp280.h](include/bmp280.h) | [Forced measurement](examples/esp/bmp280/) | [Forced measurement](examples/stm/bmp280/main.c) |
+| [BMP388](docs/chips.md#bmp388) | [bmp388.h](include/bmp388.h) | [Forced measurement](examples/esp/bmp388/) | [Forced measurement](examples/stm/bmp388/main.c) |
+| [DPS310](docs/chips.md#dps310) | [dps310.h](include/dps310.h) | [Pressure and relative height](examples/esp/dps310/) | [Pressure and relative height](examples/stm/dps310/main.c) |
+| [MS5611](docs/chips.md#ms5611) | [ms5611.h](include/ms5611.h) | [Pressure and relative height](examples/esp/ms5611/) | [Pressure and relative height](examples/stm/ms5611/main.c) |
+
 ## Using the library in your project
 
 - Add the component and enable the driver for your hardware. [Installation and build options](docs/installation.md)
-- Start from an example for your chip. The STM32 examples fit into a project with board setup already in place. [ESP-IDF examples](examples/esp/) · [STM32 examples](examples/stm/)
+- Open the ESP-IDF project for your hardware, or copy the STM32 example into a project with board setup already in place. [All ESP-IDF examples](examples/esp/) · [All STM32 examples](examples/stm/)
 - Look up calls and chip-specific settings. [API usage](docs/usage.md) · [Hardware reference](docs/chips.md)
 
 To run the simulated tests on your computer, run `make -C test test` from the library root. [Test requirements and coverage](docs/development.md)
@@ -67,3 +85,5 @@ To run the simulated tests on your computer, run `make -C test test` from the li
 ## License
 
 [MIT](LICENSE)
+
+[Browse the workshop catalog · ESP32 and STM32 drivers](https://github.com/JonasAtelier/jonas-atelier-libraries#esp32-and-stm32-drivers)
